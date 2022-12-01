@@ -79,7 +79,7 @@ print out max_calorie
 '''
 
 currentElf = 1
-maxCalories = 0
+maxCalories = [ 0, 0, 0 ]
 maxElf = 1
 currentCalories = 0
 
@@ -92,12 +92,21 @@ with open ('day/1/input') as file:
 
         else:
             # end of current elf, determine if max changed
-            if currentCalories > maxCalories:
-                maxElf = currentElf
+            for item, calories in enumerate(maxCalories):
+                if currentCalories > calories:
+                    maxElf = currentElf
 
-            maxCalories = max(currentCalories, maxCalories)
+                    maxCalories.insert(item, max(currentCalories, calories))
+                    maxCalories.pop()
+                    break
+
+
             currentElf += 1
             currentCalories = 0
 
 
-print(f'Elf with maximum calories: {maxElf}, with {maxCalories} calories.')
+sum = 0
+for x in maxCalories:
+    sum += x
+
+print(f'Maximum calories = {sum}')
