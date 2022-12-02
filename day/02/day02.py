@@ -2,62 +2,70 @@
 '''
 single round sore: second column X = 1, Y = 2, z = 3
 total round: single round score + win = lost, 3 = draw, win = 6
+
+second half changes:
+X = lose, Y = draw, Z = win
 '''
 
 import os
 
 strategyGuide = open('day/02/input')
+# strategyGuide = ['A Y', 'B X', 'C Z']
 
-choiceScore = {'X': 1, 'Y': 2, 'Z': 3}
-equivalentChoice = {'A': 'X', 'B': 'Y', 'C': 'Z'}
+outcomeScore = {'X': 0, 'Y': 3, 'Z': 6}
+choiceScore = {'R': 1, 'P': 2, 'S': 3}
+equivalentChoice = {'A': 'R', 'B': 'P', 'C': 'S'}
 
 totalScore = 0
 score = 0
 
 for line in strategyGuide.readlines():
+# for line in strategyGuide:
     line = line.strip()
     # j = first player choice
-    # k = second player response
+    # k = outcome from game
     j, k = line.split(' ')
 
     score = 0
 
-    # points for choice
-    score += choiceScore[k]
+    # points for outcomeScore
+    score += outcomeScore[k]
 
-    # points for outcome
-    if equivalentChoice[j] == k:        # draw
-        score += 3
+    # what choice is needed for outcome
+    # draw
+    if k == 'Y':
+        choice = equivalentChoice[j]
+        score += choiceScore[choice]
 
-    # Rock vs
-    elif j == 'A':
-        # paper
-        if k == 'Y':
-            score += 6
-        # scissors
-        elif k == 'Z':
-            score += 0
+    # lose
+    elif k == 'X':
+        # rock, choose scissors to lose
+        if j == 'A':
+            score += choiceScore['S']
 
-    # Paper vs
-    elif j == 'B':
-        # rock
-        if k == 'X':
-            score += 0
-        # scissors
-        elif k == 'Z':
-            score += 6
+        # paper, choose rock to lose
+        elif j == 'B':
+            score += choiceScore['R']
 
-    # Scissors vs
-    elif j == 'C':
-        # rock
-        if k == 'X':
-            score += 6
-        # paper
-        elif k == 'Y':
-            score += 0
+        # scissors, choose paper
+        elif j == 'C':
+            score += choiceScore['S']
 
+    # win
+    elif k == 'Z':
+        # rock, chose paper
+        if j == 'A':
+            score += choiceScore['P']
 
-    # update totalScore
+        # paper, choose scissors
+        elif j == 'B':
+            score += choiceScore['S']
+
+        # scissors, chose rock
+        elif j == 'C':
+            score += choiceScore['R']
+
+    
     totalScore += score
 
 
