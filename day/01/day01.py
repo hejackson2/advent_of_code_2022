@@ -83,7 +83,7 @@ maxCalories = [ 0, 0, 0 ]
 maxElf = 1
 currentCalories = 0
 
-with open ('day/01/input') as file:
+with open ('day/1/input') as file:
     for line in file.readlines():
         line = line.strip()
         
