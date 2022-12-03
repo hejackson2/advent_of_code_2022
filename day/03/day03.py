@@ -9,22 +9,28 @@ priorityList = lowerCase + upperCase
 
 # file = 'day/03/test-input'
 file = 'day/03/input'
+# file = 'day/03/rucksack_items.txt'
 
 total = 0
 
-# read through file
+# read the data
 with open(file) as f:
-    for line in f.readlines():
-        line = line.strip()
+    lines = f.readlines()
+    for line in lines:
+        lines[lines.index(line)] = line.strip()
 
-        firstHalf = line[:len(line) // 2]
-        secondHalf = line[len(line) // 2:]
+    # get groups of 3
+    for y in range(len(lines) // 3):
+        a = []
+        for x in range(3):
+            a.append(lines.pop(0))
 
-        for c in firstHalf:
-            if c in secondHalf:
-                # print(f'{c}: {priorityList.index(c) + 1}')
+        # search through list a for commonalities
+        badgePriority = 0
+        for c in a[0]:
+            if c in a[1] and c in a[2]:
                 total += priorityList.index(c) + 1
-                break
-
+                badgePriority = priorityList.index(c) + 1
+                break    
 
 print(total)
