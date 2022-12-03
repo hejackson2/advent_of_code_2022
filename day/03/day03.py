@@ -16,21 +16,21 @@ total = 0
 # read the data
 with open(file) as f:
     lines = f.readlines()
+
+    # clean up lines, removing '\n'
     for line in lines:
         lines[lines.index(line)] = line.strip()
 
-    # get groups of 3
+    # get groups of 3, remove them from the larger lines list
     for y in range(len(lines) // 3):
         a = []
         for x in range(3):
             a.append(lines.pop(0))
 
         # search through list a for commonalities
-        badgePriority = 0
         for c in a[0]:
             if c in a[1] and c in a[2]:
                 total += priorityList.index(c) + 1
-                badgePriority = priorityList.index(c) + 1
                 break    
 
 print(total)
