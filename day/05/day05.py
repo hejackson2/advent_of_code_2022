@@ -98,11 +98,48 @@ def parseMoves(columns, moves):
 
 
 
+def parseMoves2(columns, moves):
+
+    # parse through moves
+    for x, y in enumerate(moves):
+
+        # (q)uantity to move, (s)tarting column, (d)estination column
+        q, s, d = moves[x]
+
+        # pull from start
+        b = columns[s-1][-q:]
+        columns[s-1] = columns[s-1][:-q]
+
+        # push to destination
+        columns[d-1] += b
+
+        answer = ''
+        for z in columns:
+            if len(z) > 0:
+                answer += z[-1]
+            else:
+                answer += ' '
+
+    # derive answer as last string from each column
+    answer = ''
+    for z in columns:
+        if len(z) > 0:
+            answer += z[-1]
+        else:
+            answer += ' '
+    
+    return(answer)
+
+
 
 def main():
     columns, moves = readInput(data)
     answer = parseMoves(columns, moves)
     print(f'The answer to part one is {answer}')
+
+    columns, moves = readInput(data)
+    answer = parseMoves2(columns, moves)
+    print(f'The answer to part two is {answer}')
 
 
 if __name__ == '__main__':
