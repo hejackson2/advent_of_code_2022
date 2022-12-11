@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 
 import re
-from pprint import pprint
 
-# data = 'day/07/test-input'
 data = 'day/07/input'
+
 
 def cleanInput(data):
     lines = []
@@ -64,14 +63,35 @@ def calculateSize(dirs, maxSize):
     
     for directory in dirs.keys():
         dSize = dirs[directory]['size']
+        # print(f'{directory}: {dSize}')
         if dSize <= maxSize:
             totalSize += dSize
 
     return totalSize
 
 
+def partTwo(dirs):
+
+    # calculate size needed
+    totalDiskSpace = 70_000_000
+    usedSpace = dirs[tuple('/',)]['size']
+    remainingSpace = totalDiskSpace - usedSpace
+    spaceNeeded = 30_000_000 - remainingSpace
+    currentMaxSize = 0
+
+    for directory in dirs.keys():
+        dSize = dirs[directory]['size']
+        if dSize > spaceNeeded:
+            if currentMaxSize == 0:
+                currentMaxSize = dSize
+            else:
+                currentMaxSize = min(dSize,currentMaxSize)
+            
+    return currentMaxSize
+
 
 if __name__ == '__main__':
     lines = cleanInput(data)
     dirs = processData(lines)
     print(f'Day 07 - part One: {calculateSize(dirs, 100_000)}')
+    print(f'Day 07 - part Two: {partTwo(dirs)}')
