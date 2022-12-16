@@ -84,7 +84,7 @@ def visibleCount(visible):
             
 
 
-def partOne(grid):
+def visibleGrid(grid):
     # get edges
     right = len(grid[0]) - 1
     bottom = len(grid) - 1
@@ -125,9 +125,80 @@ def partOne(grid):
         
 
 
+def checkScenic(grid):
+    scenicGrid = []
+    for r, row in enumerate(grid):
+        scenicGrid.append([])
+        for c, col in enumerate(row):
+            # top to row
+            fromTheTop = []
+            for y in range(r):
+                fromTheTop.append(grid[y][c])
+
+            # row to bottom
+            toTheBottom = []
+            for y in range(r+1, len(grid)):
+                toTheBottom.append(grid[y][c])
+
+            # left to column
+            fromTheLeft = grid[r][:c]
+
+            # column to right
+            toTheRight = grid[r][c + 1:]
+
+            pass
+
+            # calculate scenic score
+            ## to Top
+            fromTheTop.reverse()
+            top = 0
+            for t in fromTheTop:
+                top += 1
+                if t >= col:
+                    break
+
+            ## bottom
+            bottom = 0
+            for b in toTheBottom:
+                bottom += 1
+                if b >= col:
+                    break
+
+            ## left
+            fromTheLeft.reverse()
+            left = 0
+            for l in fromTheLeft:
+                left += 1
+                if l >= col:
+                    break
+
+            ## right
+            right = 0
+            for rr in toTheRight:
+                right += 1
+                if rr >= col:
+                    break
+
+            scenicGrid[r].append(top * bottom * left * right)
+
+        # end of col, begin next row
+
+    # find max in scenicGrid
+    maxValue = 0
+    for r in scenicGrid:
+        rowMax = max(r)
+        maxValue = max(maxValue, rowMax)
+        pass
+
+    return maxValue
+
+            
+
+
 
 if __name__ == '__main__':
     grid = readData(data)
-    visible = partOne(grid)
-    print(visibleCount(visible))
+    visible = visibleGrid(grid)
+    print(f'part one: {visibleCount(visible)}')
+    print(f'part two: {checkScenic(grid)}')
 
